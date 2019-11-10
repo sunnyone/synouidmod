@@ -11,10 +11,10 @@ $ cp -pr /var/run/synosdk /var/run/synosdk.old
 
 ## Execute the program
 ```
-$ ./synouidmod USERNAME
-User entry USERNAME is found: username=yoichi, uid=1500, gid=1500
-$ sudo ./synouidmod YOICHI 3000 4000
-User entry YOICHI is found: username=yoichi, uid=1500, gid=1500
+$ ./synouidmod USERNAME1
+User entry USERNAME1 is found: username=username1, uid=1500, gid=1500
+$ sudo ./synouidmod USERNAME 3000 4000
+User entry USERNAME1 is found: username=username1, uid=1500, gid=1500
 Modify to: uid=3000, gid=4000
 ```
 
