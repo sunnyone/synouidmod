@@ -22,13 +22,13 @@ Modify to: uid=3000, gid=4000
 Update a field (like description) on Synology DiskStation.
 
 # Build
-Strongly recommended to build this program on a virtual environment like LXD.
+It's strongly recommended to build this program on a virtual environment like LXD.
 
 ## Download toolkit
 Download ds.(arch)-(ver).dev.txz and toolchain from sourceforge.
 https://originhelp.synology.com/developer-guide/compile_applications/download_dsm_tool_chain.html
 
-## Set virtual environment up
+## Set a virtual environment up
 ```
 lxc launch ubuntu:18.04 synodev
 lxc exec synodev
@@ -43,12 +43,12 @@ sudo tar xpf armada38x-gcc493_glibc220_hard-GPL.txz -C /usr/local
 
 CAUTION: ds.* archives extracts files to root. This may break the build environment.
 
-## Change platform on env.sh
+## Change the platform in env.sh
 ```
 PLATFORM=arm-unknown-linux-gnueabi
 ```
 
-## Execute build.sh
+## Execute the build.sh
 ```
 ./build.sh
 ```
