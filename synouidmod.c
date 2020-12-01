@@ -11,6 +11,13 @@ int main(int argc, char* argv[])
 
     int modify = argc >= 3 ? 1 : 0;
     char *username = argv[1];
+
+    // convert username to uppercase
+    int i = 0;
+    for (i = 0; username[i]; i++ ) {
+        username[i] = toupper( (unsigned char)username[i]);
+    }
+
     uid_t uid;
     gid_t gid;
     if (modify) {
@@ -19,6 +26,7 @@ int main(int argc, char* argv[])
     }
 
     int userdb = 0;
+
     PSYNOUSER user = NULL;
     PSYNOSHADOW shadow = NULL;
     int exitCode = 1;
@@ -27,26 +35,41 @@ int main(int argc, char* argv[])
     if (!userdb) {
         fprintf(stderr, "Failed to open database (permission?).\n");
         goto finish;
+    } else {
+        printf("Database opened successfully\n");
     }
 
-    SYNOUserDbGet(userdb, username, &user);
-    if (!user) {
-        fprintf(stderr, "User '%s' is not found.\n", username);
+    if (SYNOUserDbGet(userdb, username, &user) == -1 || !user) {
+        fprintf(stderr, "User '%s' not found.\n", username);
         goto finish;
     }
-    printf("User entry %s is found: username=%s, uid=%d, gid=%d\n", username, user->szName, user->pw_uid, user->pw_gid);
+
+    printf("User '%s' has been found: username=%s, uid=%d, gid=%d\n", username, user->szName, user->pw_uid, user->pw_gid);
     if (!modify) {
+        fprintf(stderr, "No modifications applied to database\n", username);
         exitCode = 0;
         goto finish;
     }
 
-    printf("Modify to: uid=%d, gid=%d\n", uid, gid);
+    printf("Modifying '%s' to uid=%d, gid=%d\n", user->szName, uid, gid);
+
     SLIBUserShadowAlloc(&shadow, SYNO_SHADOW_UPDATE_USER);
+    if (!shadow) {
+        fprintf(stderr, "SLIBUserShadowAlloc failed\n");
+        goto finish;
+    }
+
     user->pw_uid = uid;
     user->pw_gid = gid;
-    SYNOUserDbUpdate(userdb, username, user, shadow);
 
+    if (SYNOUserDbUpdate(userdb, username, user, shadow) == -1) {
+        fprintf(stderr, "Update failed\n");
+        goto finish;
+    }
+
+    printf("Update successfull\n");
     exitCode = 0;
+    
     finish:
     if (!shadow) {
         SLIBUserShadowFree(shadow);
@@ -57,6 +80,5 @@ int main(int argc, char* argv[])
     if (userdb) {
         SYNOUserDbClose(userdb);
     }
-
     return exitCode;
 }

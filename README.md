@@ -12,10 +12,14 @@ $ cp -pr /var/run/synosdk /var/run/synosdk.old
 ## Execute the program
 ```
 $ ./synouidmod USERNAME1
-User entry USERNAME1 is found: username=username1, uid=1500, gid=1500
-$ sudo ./synouidmod USERNAME 3000 4000
-User entry USERNAME1 is found: username=username1, uid=1500, gid=1500
-Modify to: uid=3000, gid=4000
+Database opened successfully
+User 'USERNAME1' has been found: username=username1, uid=1500, gid=1500
+No modifications applied to database
+$ sudo ./synouidmod USERNAME1 3000 4000
+Database opened successfully
+User 'USERNAME1' has been found: username=username1, uid=1500, gid=1500
+Modifying 'username1' to uid=3000, gid=4000
+Update successfull
 ```
 
 ## Update the user on GUI
