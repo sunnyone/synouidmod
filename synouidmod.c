@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Failed to open database (permission?).\n");
         goto finish;
     } else {
-        printf("Database successfully opened\n");
+        printf("Database opened successfully\n");
     }
 
     if (SYNOUserDbGet(userdb, username, &user) == -1 || !user) {
@@ -44,9 +44,9 @@ int main(int argc, char* argv[])
         goto finish;
     }
 
-    printf("User '%s' has beend found: username=%s, uid=%d, gid=%d\n", username, user->szName, user->pw_uid, user->pw_gid);
+    printf("User '%s' has been found: username=%s, uid=%d, gid=%d\n", username, user->szName, user->pw_uid, user->pw_gid);
     if (!modify) {
-        fprintf(stderr, "No modifications applied to database.\n", username);
+        fprintf(stderr, "No modifications applied to database\n", username);
         exitCode = 0;
         goto finish;
     }
